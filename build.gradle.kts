@@ -49,7 +49,16 @@ kotlin {
             }
         }
     }
+
 }
+
+tasks {
+    task<Jar>("SourceJar") {
+        archiveClassifier.set("sources")
+        from(sourceSets)
+    }.dependsOn(classes)
+}
+
 
 signing {
     sign(publishing.publications)
@@ -58,7 +67,7 @@ signing {
 publishing {
     repositories {
         maven {
-            name = "SonatypeRepository"
+            name = "Sonatype"
             if (version.toString().endsWith("SNAPSHOT")) {
                 setUrl("https://s01.oss.sonatype.org/content/repositories/snapshots/")
             } else {
@@ -72,7 +81,7 @@ publishing {
     }
 
     publications {
-        create<MavenPublication>("ExtensionApi") {
+        create<MavenPublication>("Maven") {
             groupId = group.toString()
             artifactId = "Extension-Api"
             version = project.version.toString()
@@ -99,9 +108,10 @@ publishing {
                         email.set("edgeatzero@gmail.com")
                     }
                 }
-
-                from(components["kotlin"])
             }
+
+            artifact(tasks.jar)
+            artifact(tasks.kotlinSourcesJar)
         }
     }
 }

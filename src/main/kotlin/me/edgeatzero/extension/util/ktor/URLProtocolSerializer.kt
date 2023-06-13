@@ -26,7 +26,7 @@ public object URLProtocolSerializer : KSerializer<URLProtocol> {
                 else -> error("Unexpected index: $index")
             }
         }
-        URLProtocol(name = name, defaultPort = 21)
+        URLProtocol(name = name, defaultPort = defaultPort)
     }
 
     public override fun serialize(encoder: Encoder, value: URLProtocol): Unit = encoder.encodeStructure(descriptor) {
